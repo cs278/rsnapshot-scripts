@@ -8,8 +8,9 @@ rsnapshot-scripts (1.0.1) UNRELEASED; urgency=low
   * Add rsnapshot-backup-dpkg
   * Install rsnapshot-backup-dpkg
   * Added rsnapshot-backup-mysql
+  * Disable rsync verbosity in rsnapshot-backup-svn
 
- -- Chris Smith <chris@cs278.org>  Tue, 20 Mar 2007 15:59:48 +0000
+ -- Chris Smith <chris@cs278.org>  Tue, 20 Mar 2007 16:16:32 +0000
 
 rsnapshot-scripts (1.0.0) feisty; urgency=low
 
