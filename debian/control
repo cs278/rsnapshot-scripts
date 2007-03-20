@@ -1,0 +1,16 @@
+Source: rsnapshot-scripts
+Section: misc
+Priority: extra
+Maintainer: Chris Smith <chris@cs278.org>
+Build-Depends: debhelper (>= 5)
+Standards-Version: 3.7.2
+
+Package: rsnapshot-scripts
+Architecture: all
+Depends: rsnapshot, bash
+Recommends: subversion
+Description: rsnapshot backup scripts
+ A collection of scripts I have written for use
+ with rsnapshot to aide backups of various 'difficult'
+ sources of data. Currently supports:
+  * Subversion

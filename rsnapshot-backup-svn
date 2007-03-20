@@ -1,0 +1,105 @@
+#!/bin/bash
+
+#
+# rsnapshot-backup-svn
+#
+# (c) Copyright 2007 Chris Smith
+# Released under the GNU Public License
+# <http://www.opensource.org/licenses/gpl-license.php>
+#
+# $Id$
+#
+# Download latest from: $HeadURL$
+#
+
+# Trap ^C
+trap 'exit 1' TERM INT;
+
+CHOWN=/bin/chown
+CHGRP=/bin/chgrp
+CHMOD=/bin/chmod
+FIND=/usr/bin/find
+GREP=/bin/grep
+MKDIR=/bin/mkdir
+READLINK=/bin/readlink
+RSYNC=/usr/bin/rsync
+SED=/bin/sed
+STAT=/usr/bin/stat
+SVN=/usr/bin/svn
+SVNADMIN=/usr/bin/svnadmin
+XARGS=/usr/bin/xargs
+
+BASE="/var/svn";
+BASE_SED=$(echo $BASE | $SED "s/\//\\\\\//g");
+
+function is_repository {
+	if [[ -d "$1/db" && -d "$1/conf" && -d "$1/hooks" ]]; then
+		return 1;
+	else
+		return 0;
+	fi
+}
+
+function get_mode {
+	$STAT --format=%a $1
+}
+
+function get_uid {
+	$STAT --format=%u $1
+}
+
+function get_gid {
+	$STAT --format=%g $1
+}
+
+function backup_repos {
+	REPOS=$1;
+
+	$SVNADMIN hotcopy "$BASE/$REPOS" "$REPOS";
+
+	$CHOWN $(get_uid $BASE/$REPOS) $REPOS;
+	$CHGRP $(get_gid $BASE/$REPOS) $REPOS;
+	$CHMOD $(get_mode $BASE/$REPOS) $REPOS;
+
+	# Use hotcopied directory because svnadmin cleans some stuff out ;)
+	REPOS_FILES=$($FIND "$REPOS" -print0 | $XARGS -0);
+
+	for REPOS_FILE in $REPOS_FILES; do
+		$CHOWN $(get_uid "$BASE/$REPOS_FILE") $REPOS_FILE;
+		$CHGRP $(get_gid "$BASE/$REPOS_FILE") $REPOS_FILE;
+		$CHMOD $(get_mode "$BASE/$REPOS_FILE") $REPOS_FILE;		
+	done
+}
+
+
+DIRS=$($FIND $BASE -type d -print0 | xargs -0)
+REPOSITORIES="";
+EXCLUDES=""
+
+for DIR in $DIRS; do
+
+	DIR_REL=$(echo $DIR | $SED "s/$BASE_SED\///");
+
+	is_repository $DIR;
+
+	if [ "$?" == "1" ]; then
+		REPOSITORIES="$DIR_REL $REPOSITORIES";
+		EXCLUDES="--exclude=$DIR_REL/ $EXCLUDES";
+	fi
+done
+
+
+#echo "rsync -auv $EXCLUDES $BASE/ .";
+$RSYNC -auv $EXCLUDES $BASE/ .;
+
+
+for REPOS in $REPOSITORIES; do
+
+	echo "Backing up $REPOS..."
+
+	backup_repos "$REPOS"
+
+	$SVN verify $REPOS
+
+	echo "done."
+done
