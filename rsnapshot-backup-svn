@@ -137,10 +137,7 @@ for DIR in $DIRS; do
 	fi
 done
 
-
-#echo "rsync -auv $EXCLUDES $BASE/ .";
-$RSYNC -auv $EXCLUDES $BASE/ .;
-
+$RSYNC -au $EXCLUDES $BASE/ .;
 
 for REPOS in $REPOSITORIES; do
 

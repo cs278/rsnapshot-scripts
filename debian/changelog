@@ -1,4 +1,4 @@
-rsnapshot-scripts (1.0.1) UNRELEASED; urgency=low
+rsnapshot-scripts (1.0.1) feisty; urgency=medium
 
   * rsnapshot-backup-svn now uses which.
   * Fix a bug with verifying repositories
@@ -7,8 +7,10 @@ rsnapshot-scripts (1.0.1) UNRELEASED; urgency=low
   * Fix display of help in rsnapshot-backup-svn
   * Add rsnapshot-backup-dpkg
   * Install rsnapshot-backup-dpkg
+  * Added rsnapshot-backup-mysql
+  * Disable rsync verbosity in rsnapshot-backup-svn
 
- -- Chris Smith <chris@cs278.org>  Tue, 20 Mar 2007 14:53:32 +0000
+ -- Chris Smith <chris@cs278.org>  Tue, 20 Mar 2007 16:18:06 +0000
 
 rsnapshot-scripts (1.0.0) feisty; urgency=low
 
