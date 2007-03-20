@@ -87,8 +87,8 @@ function backup_repos {
 
 function show_usage {
 	echo "Usage: $0 [ --version | --help | src ]";
-	echo -e "\t--help\tDisplay this help and exit";
-	echo -e "\t--version\tDisplay version and exit";
+	echo -e "    --help\tDisplay this help and exit";
+	echo -e "    --version\tDisplay version and exit";
 	exit $1;
 }
 

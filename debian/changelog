@@ -4,8 +4,9 @@ rsnapshot-scripts (1.0.1) UNRELEASED; urgency=low
   * Fix a bug with verifying repositories
   * Added help and version information to rsnapshot-backup-svn
   * rsnapshot-backup-svn now takes an argument which is the source directory
+  * Fix display of help in rsnapshot-backup-svn
 
- -- Chris Smith <chris@cs278.org>  Tue, 20 Mar 2007 14:40:43 +0000
+ -- Chris Smith <chris@cs278.org>  Tue, 20 Mar 2007 14:49:11 +0000
 
 rsnapshot-scripts (1.0.0) feisty; urgency=low
 
