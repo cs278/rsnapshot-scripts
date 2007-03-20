@@ -4,8 +4,9 @@
 # rsnapshot-backup-svn
 #
 # (c) Copyright 2007 Chris Smith
-# Released under the GNU Public License
-# <http://www.opensource.org/licenses/gpl-license.php>
+# This is free software. You may redistribute copies of it under the terms of
+# the GNU General Public License <http://www.opensource.org/licenses/gpl-license.php>.
+# There is NO WARRANTY, to the extent permitted by law.
 #
 # $Id$
 #
@@ -45,10 +46,6 @@ else
 	XARGS=$($WHICH xargs);
 fi
 
-
-BASE="/var/svn";
-BASE_SED=$(echo $BASE | $SED "s/\//\\\\\//g");
-
 function is_repository {
 	if [[ -d "$1/db" && -d "$1/conf" && -d "$1/hooks" ]]; then
 		return 1;
@@ -87,6 +84,41 @@ function backup_repos {
 		$CHMOD $(get_mode "$BASE/$REPOS_FILE") $REPOS_FILE;		
 	done
 }
+
+function show_usage {
+	echo "Usage: $0 [ --version | --help | src ]";
+	echo -e "\t--help\tDisplay this help and exit";
+	echo -e "\t--version\tDisplay version and exit";
+	exit $1;
+}
+
+function show_version {
+	echo "rsnapshot-backup-svn";
+	echo '$Id$';
+	echo ""
+	echo "(c) Copyright 2007 Chris Smith";
+	echo "This is free software. You may redistribute copies of it under the terms of";
+	echo "the GNU General Public License <http://www.opensource.org/licenses/gpl-license.php>.";
+	echo "There is NO WARRANTY, to the extent permitted by law.";
+	echo "";
+	echo "Written by Chris Smith <http://www.cs278.org/>";
+	exit 0;
+}
+
+if [ "$1" == "" ]; then
+	show_usage 1
+	exit 1;
+elif [ "$1" == "--help" ]; then
+	show_usage 0
+	exit 0;
+elif [ "$1" == "--version" ]; then
+	show_version
+	exit 0;
+fi
+
+
+BASE="$1";
+BASE_SED=$(echo $BASE | $SED "s/\//\\\\\//g");
 
 
 DIRS=$($FIND $BASE -type d -print0 | xargs -0)
