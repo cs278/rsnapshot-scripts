@@ -116,7 +116,7 @@ for REPOS in $REPOSITORIES; do
 
 	backup_repos "$REPOS"
 
-	$SVN verify $REPOS
+	$SVNADMIN verify $REPOS
 
 	echo "done."
 done

@@ -1,8 +1,9 @@
 rsnapshot-scripts (1.0.1) UNRELEASED; urgency=low
 
   * rsnapshot-backup-svn now uses which.
+  * Fix a bug with verifying repositories
 
- -- Chris Smith <chris@cs278.org>  Tue, 20 Mar 2007 14:16:43 +0000
+ -- Chris Smith <chris@cs278.org>  Tue, 20 Mar 2007 14:27:38 +0000
 
 rsnapshot-scripts (1.0.0) feisty; urgency=low
 
