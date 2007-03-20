@@ -6,8 +6,9 @@ rsnapshot-scripts (1.0.1) UNRELEASED; urgency=low
   * rsnapshot-backup-svn now takes an argument which is the source directory
   * Fix display of help in rsnapshot-backup-svn
   * Add rsnapshot-backup-dpkg
+  * Install rsnapshot-backup-dpkg
 
- -- Chris Smith <chris@cs278.org>  Tue, 20 Mar 2007 14:51:55 +0000
+ -- Chris Smith <chris@cs278.org>  Tue, 20 Mar 2007 14:53:32 +0000
 
 rsnapshot-scripts (1.0.0) feisty; urgency=low
 
