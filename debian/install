@@ -1,2 +1,3 @@
 rsnapshot-backup-dpkg	usr/sbin
+rsnapshot-backup-mysql	usr/sbin
 rsnapshot-backup-svn	usr/sbin
