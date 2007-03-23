@@ -16,7 +16,7 @@
 # Trap ^C
 trap 'exit 1' TERM INT;
 
-WHICH=$(which);
+WHICH=$(which which);
 
 if [ "$?" != "0" ]; then
 	CHOWN=/bin/chown

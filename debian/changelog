@@ -1,8 +1,10 @@
 rsnapshot-scripts (1.0.2) UNRELEASED; urgency=low
 
   * Added rsnapshot-backup-dns
+  * Fix bug in rsnapshot-backup-{dpkg,mysql,svn} regarding
+    the use of which.
 
- -- Chris Smith <chris@cs278.org>  Fri, 23 Mar 2007 02:52:24 +0000
+ -- Chris Smith <chris@cs278.org>  Fri, 23 Mar 2007 02:55:02 +0000
 
 rsnapshot-scripts (1.0.1) feisty; urgency=medium
 

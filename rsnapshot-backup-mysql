@@ -13,7 +13,7 @@
 # Download latest from: $HeadURL$
 #
 
-WHICH=$(which);
+WHICH=$(which which);
 
 if [ "$?" != "0" ]; then
 	GZIP=/bin/gzip
