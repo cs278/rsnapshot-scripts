@@ -26,7 +26,7 @@ else
 fi
 
 function show_usage {
-	echo "Usage: $0 [ --version | --help | domain ]";
+	echo "Usage: $0 [ --version | --help | domain ] [ nameserver ]";
 	echo -e "    --help\tDisplay this help and exit";
 	echo -e "    --version\tDisplay version and exit";
 	exit $1;
@@ -56,9 +56,14 @@ elif [ "$1" == "" ]; then
 	exit 1;
 else
 	DOMAIN=$1;
+
+	if [ "$2" != "" ]; then
+		PRIMARY_NS=$2;
+	else
+		PRIMARY_NS=$($DIG +short soa $DOMAIN | $AWK '{ print $1; }');
+	fi
 fi
 
-PRIMARY_NS=$($DIG +short soa $DOMAIN | $AWK '{ print $1; }');
 
 echo -e ";\n; $DOMAIN from $PRIMARY_NS\n;\n" > "$DOMAIN.zone";
 
