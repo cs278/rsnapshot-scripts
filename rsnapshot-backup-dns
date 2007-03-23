@@ -17,12 +17,16 @@ WHICH=$(which which);
 
 if [ "$?" != "0" ]; then
 	AWK=/usr/bin/awk;
+	CHMOD=/bin/chmod;
 	DIG=/usr/bin/dig;
 	RM=/bin/rm;
+	TOUCH=/usr/bin/touch;
 else
 	AWK=$($WHICH awk);
+	CHMOD=$($WHICH chmod);
 	DIG=$($WHICH dig);
 	RM=$($WHICH rm);
+	TOUCH=$($WHICH touch);
 fi
 
 function show_usage {
@@ -70,6 +74,15 @@ else
 	fi
 fi
 
+if [ -f "$DOMAIN.zone" ]; then
+	echo "Zone file [$DOMAIN.zone] already exists!";
+	exit 4;
+fi
+
+$TOUCH "$DOMAIN.zone" 2>/dev/null || echo "Failed to create zone file!"; \
+exit 5;
+
+$CHMOD 0600 "$DOMAIN.zone";
 
 echo -e ";\n; $DOMAIN from $PRIMARY_NS\n;\n" > "$DOMAIN.zone";
 

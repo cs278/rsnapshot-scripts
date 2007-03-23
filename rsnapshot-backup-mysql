@@ -16,15 +16,19 @@
 WHICH=$(which which);
 
 if [ "$?" != "0" ]; then
-	GZIP=/bin/gzip
-	MYSQL=/usr/bin/mysql
-	MYSQLDUMP=/usr/bin/mysqldump
-	XARGS=/usr/bin/xargs
+	CHMOD=/bin/chmod;
+	GZIP=/bin/gzip;
+	MYSQL=/usr/bin/mysql;
+	MYSQLDUMP=/usr/bin/mysqldump;
+	XARGS=/usr/bin/xargs;
+	TOUCH=/usr/bin/touch;
 else
+	CHMOD=$($WHICH chmod);
 	GZIP=$($WHICH gzip);
 	MYSQL=$($WHICH mysql);
 	MYSQLDUMP=$($WHICH mysqldump);
 	XARGS=$($WHICH xargs);
+	TOUCH=$($WHICH touch);
 fi
 
 function show_usage {
@@ -67,6 +71,12 @@ fi
 
 for DB in `ls_db`; do
 	echo "Backing up $DB...";
+
+	$TOUCH "$DB.sql.gz" 2>/dev/null || echo "Failed to create dump file!"; \
+	exit 2;
+
+	$CHMOD 0600 "$DOMAIN.zone";
+
 	# The likely hood that dumps will be the same is slim,
 	# mysqldump puts a timestamp in the file, so I figured
 	# it would be better to compress the output.

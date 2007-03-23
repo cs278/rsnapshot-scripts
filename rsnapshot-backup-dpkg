@@ -16,9 +16,13 @@
 WHICH=$(which which);
 
 if [ "$?" != "0" ]; then
-	DPKG=/usr/bin/dpkg
+	CHMOD=/bin/chmod;
+	DPKG=/usr/bin/dpkg;
+	TOUCH=/usr/bin/touch;
 else
+	CHMOD=$($WHICH chmod);
 	DPKG=$($WHICH dpkg);
+	TOUCH=$($WHICH touch);
 fi
 
 function show_usage {
@@ -49,6 +53,13 @@ elif [ "$1" == "--version" ]; then
 	exit 0;
 fi
 
-$DPKG --get-selections > dpkg-status
+STATUS_FILE="dpkg-status";
+
+$TOUCH "$STATUS_FILE" 2>/dev/null || echo "Failed to create status file!"; \
+exit 2;
+
+$CHMOD 0600 "STATUS_FILE";
+
+$DPKG --get-selections > "$STATUS_FILE"
 
 exit $?

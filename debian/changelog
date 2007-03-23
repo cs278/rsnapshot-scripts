@@ -1,12 +1,20 @@
 rsnapshot-scripts (1.0.2a) UNRELEASED; urgency=high
 
-  * Don't use my ISPs name server in rsnapshot-backup-dns
-  * rsnapshot-backup-dns now takes a second parameter
-    the remote nameserver to use for the AXFR request
-  * Make empty $PRIMARY_NS in rsnapshot-backup-dns fatal and
-    output a suitable error.
+  * rsnapshot-backup-dns:
+    - Don't use my ISPs name server
+    - Now takes a second parameter the remote nameserver to use for
+      the AXFR request
+    - Make empty $PRIMARY_NS fatal and output a suitable error
+    - Check zone file can be created
+    - chmod zone file to 0600 to prevent it being stolen
+  * rsnapshot-backup-dpkg:
+    - Check status file can be created
+    - chmod status file to 0600 to prevent others seeing it
+  * rsnapshot-backup-mysql:
+    - Check the SQL dump files can be created
+    - chmod SQL dumps to 0600 to stop others getting the data
 
- -- Chris Smith <chris@cs278.org>  Fri, 23 Mar 2007 16:40:13 +0000
+ -- Chris Smith <chris@cs278.org>  Fri, 23 Mar 2007 17:04:12 +0000
 
 rsnapshot-scripts (1.0.2) feisty; urgency=medium
 
