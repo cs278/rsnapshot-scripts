@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# rsnapshot-backup-dpkg
+# rsnapshot-backup-mysql
 #
 # (c) Copyright 2007 Chris Smith
 # This is free software. You may redistribute copies of it under the terms of
@@ -17,23 +17,29 @@ WHICH=$(which which);
 
 if [ "$?" != "0" ]; then
 	CHMOD=/bin/chmod;
-	DPKG=/usr/bin/dpkg;
+	GZIP=/bin/gzip;
+	MYSQL=/usr/bin/mysql;
+	MYSQLDUMP=/usr/bin/mysqldump;
+	XARGS=/usr/bin/xargs;
 	TOUCH=/usr/bin/touch;
 else
 	CHMOD=$($WHICH chmod);
-	DPKG=$($WHICH dpkg);
+	GZIP=$($WHICH gzip);
+	MYSQL=$($WHICH mysql);
+	MYSQLDUMP=$($WHICH mysqldump);
+	XARGS=$($WHICH xargs);
 	TOUCH=$($WHICH touch);
 fi
 
 function show_usage {
-	echo "Usage: $0 [ --version | --help ]";
+	echo "Usage: $0 [ --version | --help | cnf_file ]";
 	echo -e "    --help\tDisplay this help and exit";
 	echo -e "    --version\tDisplay version and exit";
 	exit $1;
 }
 
 function show_version {
-	echo "rsnapshot-backup-dpkg";
+	echo "rsnapshot-backup-mysql";
 	echo '$Id$';
 	echo ""
 	echo "(c) Copyright 2007 Chris Smith";
@@ -45,6 +51,10 @@ function show_version {
 	exit 0;
 }
 
+function ls_db {
+	 echo "SHOW DATABASES" | $MYSQL $MYSQL_CNF --batch --silent | $XARGS
+}
+
 if [ "$1" == "--help" ]; then
 	show_usage 0
 	exit 0;
@@ -53,13 +63,25 @@ elif [ "$1" == "--version" ]; then
 	exit 0;
 fi
 
-STATUS_FILE="dpkg-status";
+if [[ "$1" != "" && -f "$1" ]]; then
+	MYSQL_CNF="--defaults-extra-file=$1";
+else
+	MYSQL_CNF="";
+fi
 
-$TOUCH "$STATUS_FILE" 2>/dev/null || echo "Failed to create status file!"; \
-exit 2;
+for DB in `ls_db`; do
+	echo "Backing up $DB...";
 
-$CHMOD 0600 "STATUS_FILE";
+	$TOUCH "$DB.sql.gz" 2>/dev/null || echo "Failed to create dump file!"; \
+	exit 2;
 
-$DPKG --get-selections > "$STATUS_FILE"
+	$CHMOD 0600 "$DOMAIN.zone";
+
+	# The likely hood that dumps will be the same is slim,
+	# mysqldump puts a timestamp in the file, so I figured
+	# it would be better to compress the output.
+	$MYSQLDUMP $MYSQL_CNF --tz-utc $DB | $GZIP --best > "$DB.sql.gz"
+	echo "Done."
+done
 
 exit $?

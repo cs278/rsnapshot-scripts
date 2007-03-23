@@ -1,4 +1,33 @@
-rsnapshot-scripts (1.0.1) UNRELEASED; urgency=low
+rsnapshot-scripts (1.0.2a) feisty; urgency=high
+
+  * rsnapshot-backup-dns:
+    - Don't use my ISPs name server
+    - Now takes a second parameter the remote nameserver to use for
+      the AXFR request
+    - Make empty $PRIMARY_NS fatal and output a suitable error
+    - Check zone file can be created
+    - chmod zone file to 0600 to prevent it being stolen
+  * rsnapshot-backup-dpkg:
+    - Check status file can be created
+    - chmod status file to 0600 to prevent others seeing it
+  * rsnapshot-backup-mysql:
+    - Check the SQL dump files can be created
+    - chmod SQL dumps to 0600 to stop others getting the data
+  * coreutils is now a dependency as it is used by every script
+
+ -- Chris Smith <chris@cs278.org>  Fri, 23 Mar 2007 17:23:58 +0000
+
+rsnapshot-scripts (1.0.2) feisty; urgency=medium
+
+  * Added rsnapshot-backup-dns
+  * Fix bug in rsnapshot-backup-{dpkg,mysql,svn} regarding
+    the use of which.
+  * Filled in dependencies more thoroughly
+  * Recommend that debianutils is installed for which
+
+ -- Chris Smith <chris@cs278.org>  Fri, 23 Mar 2007 04:07:13 +0000
+
+rsnapshot-scripts (1.0.1) feisty; urgency=medium
 
   * rsnapshot-backup-svn now uses which.
   * Fix a bug with verifying repositories
@@ -7,8 +36,10 @@ rsnapshot-scripts (1.0.1) UNRELEASED; urgency=low
   * Fix display of help in rsnapshot-backup-svn
   * Add rsnapshot-backup-dpkg
   * Install rsnapshot-backup-dpkg
+  * Added rsnapshot-backup-mysql
+  * Disable rsync verbosity in rsnapshot-backup-svn
 
- -- Chris Smith <chris@cs278.org>  Tue, 20 Mar 2007 14:53:32 +0000
+ -- Chris Smith <chris@cs278.org>  Tue, 20 Mar 2007 16:18:06 +0000
 
 rsnapshot-scripts (1.0.0) feisty; urgency=low
 

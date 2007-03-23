@@ -1,0 +1,97 @@
+#!/bin/bash
+
+#
+# rsnapshot-backup-dns
+#
+# (c) Copyright 2007 Chris Smith
+# This is free software. You may redistribute copies of it under the terms of
+# the GNU General Public License <http://www.opensource.org/licenses/gpl-license.php>.
+# There is NO WARRANTY, to the extent permitted by law.
+#
+# $Id$
+#
+# Download latest from: $HeadURL$
+#
+
+WHICH=$(which which);
+
+if [ "$?" != "0" ]; then
+	AWK=/usr/bin/awk;
+	CHMOD=/bin/chmod;
+	DIG=/usr/bin/dig;
+	RM=/bin/rm;
+	TOUCH=/usr/bin/touch;
+else
+	AWK=$($WHICH awk);
+	CHMOD=$($WHICH chmod);
+	DIG=$($WHICH dig);
+	RM=$($WHICH rm);
+	TOUCH=$($WHICH touch);
+fi
+
+function show_usage {
+	echo "Usage: $0 [ --version | --help | domain ] [ nameserver ]";
+	echo -e "    --help\tDisplay this help and exit";
+	echo -e "    --version\tDisplay version and exit";
+	exit $1;
+}
+
+function show_version {
+	echo "rsnapshot-backup-dns";
+	echo '$Id$';
+	echo ""
+	echo "(c) Copyright 2007 Chris Smith";
+	echo "This is free software. You may redistribute copies of it under the terms of";
+	echo "the GNU General Public License <http://www.opensource.org/licenses/gpl-license.php>.";
+	echo "There is NO WARRANTY, to the extent permitted by law.";
+	echo "";
+	echo "Written by Chris Smith <http://www.cs278.org/>";
+	exit 0;
+}
+
+if [ "$1" == "--help" ]; then
+	show_usage 0;
+	exit 0;
+elif [ "$1" == "--version" ]; then
+	show_version;
+	exit 0;
+elif [ "$1" == "" ]; then
+	show_usage 1;
+	exit 1;
+else
+	DOMAIN=$1;
+
+	if [ -z "$2" ]; then
+		PRIMARY_NS=$($DIG +short soa $DOMAIN | $AWK '{ print $1; }');
+
+		if [ -z "$PRIMARY_NS" ]; then
+			echo -n "Unable to fetch SOA from your DNS server, you can specify ";
+			echo "the primary DNS server manually see $0 --help";
+			exit 3;
+		fi
+	else
+		PRIMARY_NS=$2;
+	fi
+fi
+
+if [ -f "$DOMAIN.zone" ]; then
+	echo "Zone file [$DOMAIN.zone] already exists!";
+	exit 4;
+fi
+
+$TOUCH "$DOMAIN.zone" 2>/dev/null || echo "Failed to create zone file!"; \
+exit 5;
+
+$CHMOD 0600 "$DOMAIN.zone";
+
+echo -e ";\n; $DOMAIN from $PRIMARY_NS\n;\n" > "$DOMAIN.zone";
+
+echo "; -- BEGIN DATA --" >> "$DOMAIN.zone";
+$DIG +noall +answer axfr $DOMAIN @$PRIMARY_NS >> "$DOMAIN.zone" || ( 
+	$RM -f "$DOMAIN.zone";
+	echo "Unable to perform AXFR request from $PRIMARY_NS";
+	exit 2;
+);
+echo "; -- END DATA --" >> "$DOMAIN.zone";
+
+exit $?;
