@@ -7,8 +7,9 @@ Standards-Version: 3.7.2
 
 Package: rsnapshot-scripts
 Architecture: all
-Depends: rsnapshot, bash
-Recommends: subversion
+Depends: bash
+Recommends: rsnapshot, findutils, coreutils
+Suggests: subversion, dnsutils, mysql-client, dpkg, rsync, grep, sed, gzip, awk
 Description: rsnapshot backup scripts
  A collection of bash scripts I have written for use
  with rsnapshot to aide backups of various 'difficult'
