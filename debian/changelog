@@ -1,4 +1,4 @@
-rsnapshot-scripts (1.0.2a) UNRELEASED; urgency=high
+rsnapshot-scripts (1.0.2a) feisty; urgency=high
 
   * rsnapshot-backup-dns:
     - Don't use my ISPs name server
@@ -15,7 +15,7 @@ rsnapshot-scripts (1.0.2a) UNRELEASED; urgency=high
     - chmod SQL dumps to 0600 to stop others getting the data
   * coreutils is now a dependency as it is used by every script
 
- -- Chris Smith <chris@cs278.org>  Fri, 23 Mar 2007 17:06:47 +0000
+ -- Chris Smith <chris@cs278.org>  Fri, 23 Mar 2007 17:23:58 +0000
 
 rsnapshot-scripts (1.0.2) feisty; urgency=medium
 
