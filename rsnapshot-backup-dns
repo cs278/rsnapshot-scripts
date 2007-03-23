@@ -19,16 +19,10 @@ if [ "$?" != "0" ]; then
 	AWK=/usr/bin/awk;
 	DATE=/bin/date;
 	DIG=/usr/bin/dig;
-#	MD5SUM=/usr/bin/md5sum;
-#	SHA1SUM=/usr/bin/sha1sum;
-#	SHA256SUM=/usr/bin/sha256sum;
 else
 	AWK=$($WHICH awk);
 	DATE=$($WHICH date);
 	DIG=$($WHICH dig);
-#	MD5SUM=$($WHICH md5sum);
-#	SHA1SUM=$($WHICH sha1sum);
-#	SHA256SUM=$($WHICH sha256sum);
 fi
 
 function show_usage {
@@ -65,24 +59,8 @@ else
 fi
 
 PRIMARY_NS=$($DIG +short soa $DOMAIN @80.225.250.186 | $AWK '{ print $1; }');
-#DATA=$($DIG +noall +answer axfr $DOMAIN @$PRIMARY_NS);
 
 echo -e ";\n; $DOMAIN from $PRIMARY_NS at `$DATE -R`\n;\n" > "$DOMAIN.zone";
-
-#if [ -x $SHA256SUM ]; then
-#	HASH=$(echo -n $DATA | $SHA256SUM -);
-#	echo -e "; sha256sum for DATA portion: $HASH\n" >> "$DOMAIN.zone";
-#fi
-
-# People are more likely to have one of these tools so also include them as
-# well as other checksum functions.
-#if [ -x $SHA1SUM ]; then
-#	HASH=$(echo -n $DATA | $SHA1SUM -);
-#	echo -e "; sha1sum for DATA portion: $HASH\n" >> "$DOMAIN.zone";
-#elif [ -x $MD5SUM ]; then
-#	HASH=$(echo -n $DATA | $MD5SUM -);
-#	echo -e "; md5sum for DATA portion: $HASH\n" >> "$DOMAIN.zone";
-#fi
 
 echo "; -- BEGIN DATA --" >> "$DOMAIN.zone";
 $DIG +noall +answer axfr $DOMAIN @$PRIMARY_NS >> "$DOMAIN.zone";
