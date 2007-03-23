@@ -16,7 +16,7 @@
 # Trap ^C
 trap 'exit 1' TERM INT;
 
-WHICH=$(which);
+WHICH=$(which which);
 
 if [ "$?" != "0" ]; then
 	CHOWN=/bin/chown
@@ -137,10 +137,7 @@ for DIR in $DIRS; do
 	fi
 done
 
-
-#echo "rsync -auv $EXCLUDES $BASE/ .";
-$RSYNC -auv $EXCLUDES $BASE/ .;
-
+$RSYNC -au $EXCLUDES $BASE/ .;
 
 for REPOS in $REPOSITORIES; do
 
