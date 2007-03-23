@@ -1,0 +1,3 @@
+#!/bin/bash
+
+cat rsnapshot-backup-* | grep "\$WHICH" | awk '{ print substr($2, 0, length($2) - 2); }' | xargs which | xargs -n 1 readlink -f | xargs dpkg -S | awk '{ print substr($1, 0, length($1) - 1); }' | sort | uniq
