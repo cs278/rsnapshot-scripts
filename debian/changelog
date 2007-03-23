@@ -1,4 +1,4 @@
-rsnapshot-scripts (1.0.2) UNRELEASED; urgency=low
+rsnapshot-scripts (1.0.2) feisty; urgency=medium
 
   * Added rsnapshot-backup-dns
   * Fix bug in rsnapshot-backup-{dpkg,mysql,svn} regarding
@@ -6,7 +6,7 @@ rsnapshot-scripts (1.0.2) UNRELEASED; urgency=low
   * Filled in dependencies more thoroughly
   * Recommend that debianutils is installed for which
 
- -- Chris Smith <chris@cs278.org>  Fri, 23 Mar 2007 03:57:59 +0000
+ -- Chris Smith <chris@cs278.org>  Fri, 23 Mar 2007 04:07:13 +0000
 
 rsnapshot-scripts (1.0.1) feisty; urgency=medium
 
