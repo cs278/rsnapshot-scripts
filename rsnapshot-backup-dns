@@ -17,11 +17,9 @@ WHICH=$(which which);
 
 if [ "$?" != "0" ]; then
 	AWK=/usr/bin/awk;
-	DATE=/bin/date;
 	DIG=/usr/bin/dig;
 else
 	AWK=$($WHICH awk);
-	DATE=$($WHICH date);
 	DIG=$($WHICH dig);
 fi
 
@@ -60,7 +58,7 @@ fi
 
 PRIMARY_NS=$($DIG +short soa $DOMAIN @80.225.250.186 | $AWK '{ print $1; }');
 
-echo -e ";\n; $DOMAIN from $PRIMARY_NS at `$DATE -R`\n;\n" > "$DOMAIN.zone";
+echo -e ";\n; $DOMAIN from $PRIMARY_NS\n;\n" > "$DOMAIN.zone";
 
 echo "; -- BEGIN DATA --" >> "$DOMAIN.zone";
 $DIG +noall +answer axfr $DOMAIN @$PRIMARY_NS >> "$DOMAIN.zone";
