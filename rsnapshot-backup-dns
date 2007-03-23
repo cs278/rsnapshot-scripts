@@ -58,7 +58,7 @@ else
 	DOMAIN=$1;
 fi
 
-PRIMARY_NS=$($DIG +short soa $DOMAIN @80.225.250.186 | $AWK '{ print $1; }');
+PRIMARY_NS=$($DIG +short soa $DOMAIN | $AWK '{ print $1; }');
 
 echo -e ";\n; $DOMAIN from $PRIMARY_NS\n;\n" > "$DOMAIN.zone";
 

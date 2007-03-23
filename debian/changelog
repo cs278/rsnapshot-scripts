@@ -1,3 +1,9 @@
+rsnapshot-scripts (1.0.2a) UNRELEASED; urgency=high
+
+  * Don't use my ISPs name server
+
+ -- Chris Smith <chris@cs278.org>  Fri, 23 Mar 2007 15:19:58 +0000
+
 rsnapshot-scripts (1.0.2) feisty; urgency=medium
 
   * Added rsnapshot-backup-dns
