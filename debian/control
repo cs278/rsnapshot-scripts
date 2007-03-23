@@ -10,7 +10,10 @@ Architecture: all
 Depends: rsnapshot, bash
 Recommends: subversion
 Description: rsnapshot backup scripts
- A collection of scripts I have written for use
+ A collection of bash scripts I have written for use
  with rsnapshot to aide backups of various 'difficult'
  sources of data. Currently supports:
   * Subversion
+  * DNS
+  * DPKG Selections
+  * MySQL
