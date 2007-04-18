@@ -10,6 +10,7 @@ Architecture: all
 Depends: bash, coreutils
 Recommends: rsnapshot, findutils, debianutils
 Suggests: subversion, dnsutils, mysql-client, dpkg, rsync, grep, sed, gzip, awk
+Enhances: rsnapshot
 Description: rsnapshot backup scripts
  A collection of bash scripts I have written for use
  with rsnapshot to aide backups of various 'difficult'

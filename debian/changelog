@@ -14,8 +14,9 @@ rsnapshot-scripts (1.0.2a) feisty; urgency=high
     - Check the SQL dump files can be created
     - chmod SQL dumps to 0600 to stop others getting the data
   * coreutils is now a dependency as it is used by every script
+  * Now enhances rsnapshot
 
- -- Chris Smith <chris@cs278.org>  Fri, 23 Mar 2007 17:23:58 +0000
+ -- Chris Smith <chris@cs278.org>  Wed, 18 Apr 2007 01:55:49 +0100
 
 rsnapshot-scripts (1.0.2) feisty; urgency=medium
 
