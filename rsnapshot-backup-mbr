@@ -1,0 +1,77 @@
+#!/bin/bash
+
+#
+# rsnapshot-backup-mbr
+#
+# (c) Copyright 2007 Chris Smith
+# This is free software. You may redistribute copies of it under the terms of
+# the GNU General Public License <http://www.opensource.org/licenses/gpl-license.php>.
+# There is NO WARRANTY, to the extent permitted by law.
+#
+# $Id$
+#
+# Download latest from: $HeadURL$
+#
+
+WHICH=$(which which);
+
+if [ "$?" != "0" ]; then
+	CHMOD=/bin/chmod;
+	DD=/bin/dd;
+	TOUCH=/usr/bin/touch;
+else
+	CHMOD=$($WHICH chmod);
+	DD=$($WHICH dd);
+	TOUCH=$($WHICH touch);
+fi
+
+function show_usage {
+	echo "Usage: $0 [ --version | --help | device ]";
+	echo -e "    device\tDevice node to backup the MBR of";
+	echo -e "    --help\tDisplay this help and exit";
+	echo -e "    --version\tDisplay version and exit";
+	exit $1;
+}
+
+function show_version {
+	echo "rsnapshot-backup-mbr";
+	echo '$Id$';
+	echo ""
+	echo "(c) Copyright 2007 Chris Smith";
+	echo "This is free software. You may redistribute copies of it under the terms of";
+	echo "the GNU General Public License <http://www.opensource.org/licenses/gpl-license.php>.";
+	echo "There is NO WARRANTY, to the extent permitted by law.";
+	echo "";
+	echo "Written by Chris Smith <http://www.cs278.org/>";
+	exit 0;
+}
+
+if [ "$1" == "--help" ]; then
+	show_usage 0
+	exit 0;
+elif [ "$1" == "--version" ]; then
+	show_version
+	exit 0;
+elif [ "$1" == "" ]; then
+	show_usage 1;
+	exit 1;
+else
+	DEVICE=$1;
+	DEVICE_NAME=$(basename $DEVICE);
+fi
+
+if [ ! -b $DEVICE ]; then
+	echo "Device does not exist";
+	exit 3;
+fi
+
+DEST_FILE="$DEVICE_NAME.mbr";
+
+$TOUCH "$DEST_FILE" 2>/dev/null || (echo "Failed to create backup file!"; \
+exit 2);
+
+$CHMOD 0600 "$DEST_FILE";
+
+$DD if=$DEVICE of=$DEST_FILE bs=512 count=1
+
+exit $?
