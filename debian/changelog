@@ -2,8 +2,13 @@ rsnapshot-scripts (1.0.3) UNRELEASED; urgency=medium
 
   * rsnapshot-backup-dpkg:
     - Fix chmod
+    - Fix chmod error
+  * rsnapshot-backup-dns:
+    - Fix chmod error
+  * rsnapshot-backup-mysql:
+    - Fix chmod error
 
- -- Chris Smith <chris@cs278.org>  Tue,  8 May 2007 12:30:16 +0100
+ -- Chris Smith <chris@cs278.org>  Tue,  8 May 2007 12:36:38 +0100
 
 rsnapshot-scripts (1.0.2a) feisty; urgency=high
 

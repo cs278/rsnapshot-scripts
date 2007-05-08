@@ -79,8 +79,8 @@ if [ -f "$DOMAIN.zone" ]; then
 	exit 4;
 fi
 
-$TOUCH "$DOMAIN.zone" 2>/dev/null || echo "Failed to create zone file!"; \
-exit 5;
+$TOUCH "$DOMAIN.zone" 2>/dev/null || (echo "Failed to create zone file!"; \
+exit 5);
 
 $CHMOD 0600 "$DOMAIN.zone";
 
