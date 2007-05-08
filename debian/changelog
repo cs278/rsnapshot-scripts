@@ -1,4 +1,4 @@
-rsnapshot-scripts (1.0.3) UNRELEASED; urgency=medium
+rsnapshot-scripts (1.0.3) UNRELEASED; urgency=high
 
   * rsnapshot-backup-dpkg:
     - Fix chmod
@@ -9,7 +9,7 @@ rsnapshot-scripts (1.0.3) UNRELEASED; urgency=medium
     - Fix chmod error
   * Add rsnapshot-backup-mbr
 
- -- Chris Smith <chris@cs278.org>  Tue,  8 May 2007 12:38:57 +0100
+ -- Chris Smith <chris@cs278.org>  Tue,  8 May 2007 12:40:17 +0100
 
 rsnapshot-scripts (1.0.2a) feisty; urgency=high
 
