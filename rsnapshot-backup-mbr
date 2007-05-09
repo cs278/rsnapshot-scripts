@@ -18,10 +18,12 @@ WHICH=$(which which);
 if [ "$?" != "0" ]; then
 	CHMOD=/bin/chmod;
 	DD=/bin/dd;
+	SFDISK=/sbin/sfdisk;
 	TOUCH=/usr/bin/touch;
 else
 	CHMOD=$($WHICH chmod);
 	DD=$($WHICH dd);
+	SFDISK=$($WHICH sfdisk);
 	TOUCH=$($WHICH touch);
 fi
 
@@ -63,15 +65,22 @@ fi
 if [ ! -b $DEVICE ]; then
 	echo "Device does not exist";
 	exit 3;
+elif [ ! -r $DEVICE ]; then
+	echo "You do not have permission to read the device.";
+	exit 4;
 fi
 
 DEST_FILE="$DEVICE_NAME.mbr";
+DEST_RAW_FILE="$DEVICE_NAME.raw.mbr";
 
 $TOUCH "$DEST_FILE" 2>/dev/null || (echo "Failed to create backup file!"; \
 exit 2);
+$TOUCH "$DEST_RAW_FILE" 2>/dev/null || (echo "Failed to create backup file!"; \
+exit 2);
 
-$CHMOD 0600 "$DEST_FILE";
+$CHMOD 0600 "$DEST_FILE" "$DEST_RAW_FILE";
 
-$DD if=$DEVICE of=$DEST_FILE bs=512 count=1
+$DD if=$DEVICE of=$DEST_RAW_FILE bs=512 count=1
+$SFDISK -d $DEVICE > $DEST_FILE;
 
 exit $?
