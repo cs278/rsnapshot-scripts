@@ -8,7 +8,7 @@ Standards-Version: 3.7.2
 Package: rsnapshot-scripts
 Architecture: all
 Depends: bash, coreutils
-Recommends: rsnapshot, findutils, debianutils
+Recommends: rsnapshot, findutils, debianutils, util-linux
 Suggests: subversion, dnsutils, mysql-client, dpkg, rsync, grep, sed, gzip, awk
 Enhances: rsnapshot
 Description: rsnapshot backup scripts
@@ -19,3 +19,4 @@ Description: rsnapshot backup scripts
   * DNS
   * DPKG Selections
   * MySQL
+  * Master Boot Records
