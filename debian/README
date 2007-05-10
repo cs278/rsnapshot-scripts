@@ -1,4 +1,10 @@
 The Debian Package rsnapshot-scripts
 ----------------------------
 
+* rsnapshot-backup-mysql:
+	- Create a backup user with a strong password and give them
+	the following global priviledges SELECT, SUPER, SHOW DATABASES,
+	LOCK TABLES. This will allow them to backup your data without
+	modifying it if the account is breached.
+
  -- Chris Smith <chris@cs278.org>  Tue, 20 Mar 2007 12:45:50 +0000

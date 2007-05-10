@@ -7,9 +7,10 @@ rsnapshot-scripts (1.0.3) UNRELEASED; urgency=high
     - Fix chmod error
   * rsnapshot-backup-mysql:
     - Fix chmod error
+    - Tips in README
   * Add rsnapshot-backup-mbr
 
- -- Chris Smith <chris@cs278.org>  Tue,  8 May 2007 12:40:17 +0100
+ -- Chris Smith <chris@cs278.org>  Thu, 10 May 2007 03:47:59 +0100
 
 rsnapshot-scripts (1.0.2a) feisty; urgency=high
 
