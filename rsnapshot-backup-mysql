@@ -75,7 +75,7 @@ for DB in `ls_db`; do
 	$TOUCH "$DB.sql.gz" 2>/dev/null || (echo "Failed to create dump file!"; \
 	exit 2);
 
-	$CHMOD 0600 "$DOMAIN.zone";
+	$CHMOD 0600 "$DB.sql.gz";
 
 	# The likely hood that dumps will be the same is slim,
 	# mysqldump puts a timestamp in the file, so I figured
