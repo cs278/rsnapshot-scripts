@@ -1,3 +1,18 @@
+rsnapshot-scripts (1.0.3) feisty; urgency=high
+
+  * rsnapshot-backup-dpkg:
+    - Fix chmod
+    - Fix chmod error
+  * rsnapshot-backup-dns:
+    - Fix chmod error
+  * rsnapshot-backup-mysql:
+    - Fix chmod error
+    - Tips in README
+    - Fixed a bug with chmod line
+  * Add rsnapshot-backup-mbr
+
+ -- Chris Smith <chris@cs278.org>  Sun, 15 Jul 2007 00:38:13 +0100
+
 rsnapshot-scripts (1.0.2a) feisty; urgency=high
 
   * rsnapshot-backup-dns:
@@ -14,8 +29,9 @@ rsnapshot-scripts (1.0.2a) feisty; urgency=high
     - Check the SQL dump files can be created
     - chmod SQL dumps to 0600 to stop others getting the data
   * coreutils is now a dependency as it is used by every script
+  * Now enhances rsnapshot
 
- -- Chris Smith <chris@cs278.org>  Fri, 23 Mar 2007 17:23:58 +0000
+ -- Chris Smith <chris@cs278.org>  Wed, 18 Apr 2007 01:55:49 +0100
 
 rsnapshot-scripts (1.0.2) feisty; urgency=medium
 

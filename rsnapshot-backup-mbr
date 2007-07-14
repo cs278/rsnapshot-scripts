@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# rsnapshot-backup-mysql
+# rsnapshot-backup-mbr
 #
 # (c) Copyright 2007 Chris Smith
 # This is free software. You may redistribute copies of it under the terms of
@@ -17,29 +17,26 @@ WHICH=$(which which);
 
 if [ "$?" != "0" ]; then
 	CHMOD=/bin/chmod;
-	GZIP=/bin/gzip;
-	MYSQL=/usr/bin/mysql;
-	MYSQLDUMP=/usr/bin/mysqldump;
-	XARGS=/usr/bin/xargs;
+	DD=/bin/dd;
+	SFDISK=/sbin/sfdisk;
 	TOUCH=/usr/bin/touch;
 else
 	CHMOD=$($WHICH chmod);
-	GZIP=$($WHICH gzip);
-	MYSQL=$($WHICH mysql);
-	MYSQLDUMP=$($WHICH mysqldump);
-	XARGS=$($WHICH xargs);
+	DD=$($WHICH dd);
+	SFDISK=$($WHICH sfdisk);
 	TOUCH=$($WHICH touch);
 fi
 
 function show_usage {
-	echo "Usage: $0 [ --version | --help | cnf_file ]";
+	echo "Usage: $0 [ --version | --help | device ]";
+	echo -e "    device\tDevice node to backup the MBR of";
 	echo -e "    --help\tDisplay this help and exit";
 	echo -e "    --version\tDisplay version and exit";
 	exit $1;
 }
 
 function show_version {
-	echo "rsnapshot-backup-mysql";
+	echo "rsnapshot-backup-mbr";
 	echo '$Id$';
 	echo ""
 	echo "(c) Copyright 2007 Chris Smith";
@@ -51,37 +48,39 @@ function show_version {
 	exit 0;
 }
 
-function ls_db {
-	 echo "SHOW DATABASES" | $MYSQL $MYSQL_CNF --batch --silent | $XARGS
-}
-
 if [ "$1" == "--help" ]; then
 	show_usage 0
 	exit 0;
 elif [ "$1" == "--version" ]; then
 	show_version
 	exit 0;
-fi
-
-if [[ "$1" != "" && -f "$1" ]]; then
-	MYSQL_CNF="--defaults-extra-file=$1";
+elif [ "$1" == "" ]; then
+	show_usage 1;
+	exit 1;
 else
-	MYSQL_CNF="";
+	DEVICE=$1;
+	DEVICE_NAME=$(basename $DEVICE);
 fi
 
-for DB in `ls_db`; do
-	echo "Backing up $DB...";
+if [ ! -b $DEVICE ]; then
+	echo "Device does not exist";
+	exit 3;
+elif [ ! -r $DEVICE ]; then
+	echo "You do not have permission to read the device.";
+	exit 4;
+fi
 
-	$TOUCH "$DB.sql.gz" 2>/dev/null || (echo "Failed to create dump file!"; \
-	exit 2);
+DEST_FILE="$DEVICE_NAME.mbr";
+DEST_RAW_FILE="$DEVICE_NAME.raw.mbr";
 
-	$CHMOD 0600 "$DB.sql.gz";
+$TOUCH "$DEST_FILE" 2>/dev/null || (echo "Failed to create backup file!"; \
+exit 2);
+$TOUCH "$DEST_RAW_FILE" 2>/dev/null || (echo "Failed to create backup file!"; \
+exit 2);
 
-	# The likely hood that dumps will be the same is slim,
-	# mysqldump puts a timestamp in the file, so I figured
-	# it would be better to compress the output.
-	$MYSQLDUMP $MYSQL_CNF --tz-utc $DB | $GZIP --best > "$DB.sql.gz"
-	echo "Done."
-done
+$CHMOD 0600 "$DEST_FILE" "$DEST_RAW_FILE";
+
+$DD if=$DEVICE of=$DEST_RAW_FILE bs=512 count=1
+$SFDISK -d $DEVICE > $DEST_FILE;
 
 exit $?
