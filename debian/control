@@ -9,7 +9,7 @@ Package: rsnapshot-scripts
 Architecture: all
 Depends: bash, coreutils
 Recommends: rsnapshot, findutils, debianutils, util-linux
-Suggests: subversion, dnsutils, mysql-client, dpkg, rsync, grep, sed, gzip, awk
+Suggests: subversion, dnsutils, mysql-client, dpkg, rsync, grep, sed, gzip, awk, debconf-utils
 Enhances: rsnapshot
 Description: rsnapshot backup scripts
  A collection of bash scripts I have written for use
@@ -18,5 +18,6 @@ Description: rsnapshot backup scripts
   * Subversion
   * DNS
   * DPKG Selections
+  * Debconf Database
   * MySQL
   * Master Boot Records

@@ -2,7 +2,7 @@ rsnapshot-scripts (1.0.4) UNRELEASED; urgency=low
 
   * Add rsnapshot-backup-debconf
 
- -- Chris Smith <chris@cs278.org>  Sun, 15 Jul 2007 04:14:08 +0100
+ -- Chris Smith <chris@cs278.org>  Sun, 15 Jul 2007 17:06:54 +0100
 
 rsnapshot-scripts (1.0.3) feisty; urgency=high
 
