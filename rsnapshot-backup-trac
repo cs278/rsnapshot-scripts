@@ -132,7 +132,7 @@ EXCLUDES=""
 
 for DIR in $DIRS; do
 
-	DIR_REL=$(echo $DIR | $SED "s/$BASE_SED\///");
+	DIR_REL=$(echo $DIR | $SED "s,$BASE,,");
 
 	is_env $DIR;
 
