@@ -1,0 +1,154 @@
+#!/bin/sh
+
+#
+# rsnapshot-backup-trac
+#
+# (c) Copyright 2007 Chris Smith
+# This is free software. You may redistribute copies of it under the terms of
+# the GNU General Public License <http://www.opensource.org/licenses/gpl-license.php>.
+# There is NO WARRANTY, to the extent permitted by law.
+#
+# $Id$
+#
+# Download latest from: $HeadURL$
+#
+
+# Trap ^C
+trap 'exit 1' TERM INT;
+
+WHICH=$(which which);
+
+if [ "$?" != "0" ]; then
+	CHOWN=/bin/chown
+	CHGRP=/bin/chgrp
+	CHMOD=/bin/chmod
+	FIND=/usr/bin/find
+	GREP=/bin/grep
+	MKDIR=/bin/mkdir
+	RSYNC=/usr/bin/rsync
+	SED=/bin/sed
+	STAT=/usr/bin/stat
+	TRACADMIN=/usr/bin/trac-admin
+	XARGS=/usr/bin/xargs
+else
+	CHOWN=$($WHICH chown);
+	CHGRP=$($WHICH chgrp);
+	CHMOD=$($WHICH chmod);
+	FIND=$($WHICH find);
+	GREP=$($WHICH grep);
+	MKDIR=$($WHICH mkdir);
+	RSYNC=$($WHICH rsync);
+	SED=$($WHICH sed);
+	STAT=$($WHICH stat);
+	TRACADMIN=$($WHICH trac-admin);
+	XARGS=$($WHICH xargs);
+fi
+
+is_env()
+{
+	if [ -d "$1/db" -a -d "$1/conf" -a -d "$1/htdocs" ]; then
+		return 1;
+	else
+		return 0;
+	fi
+}
+
+get_mode()
+{
+	$STAT --format=%a $1
+}
+
+get_uid()
+{
+	$STAT --format=%u $1
+}
+
+get_gid()
+{
+	$STAT --format=%g $1
+}
+
+backup_env()
+{
+	ENV=$1;
+
+	$TRACADMIN "$BASE/$ENV" hotcopy "$ENV";
+
+	$CHOWN $(get_uid $BASE/$ENV) $ENV;
+	$CHGRP $(get_gid $BASE/$ENV) $ENV;
+	$CHMOD $(get_mode $BASE/$ENV) $ENV;
+
+	# Use hotcopied directory because trac-admin (might) clean some stuff out ;)
+	ENV_FILES=$($FIND "$ENV" -print0 | $XARGS -0);
+
+	for ENV_FILE in $ENV_FILES; do
+		$CHOWN $(get_uid "$BASE/$ENV_FILE") $ENV_FILE;
+		$CHGRP $(get_gid "$BASE/$ENV_FILE") $ENV_FILE;
+		$CHMOD $(get_mode "$BASE/$ENV_FILE") $ENV_FILE;		
+	done
+}
+
+show_usage()
+{
+	echo "Usage: $0 [ --version | --help | src ]";
+	echo -e "    --help\tDisplay this help and exit";
+	echo -e "    --version\tDisplay version and exit";
+	exit $1;
+}
+
+show_version()
+{
+	echo "rsnapshot-backup-trac";
+	echo '$Id$';
+	echo ""
+	echo "(c) Copyright 2007 Chris Smith";
+	echo "This is free software. You may redistribute copies of it under the terms of";
+	echo "the GNU General Public License <http://www.opensource.org/licenses/gpl-license.php>.";
+	echo "There is NO WARRANTY, to the extent permitted by law.";
+	echo "";
+	echo "Written by Chris Smith <http://www.cs278.org/>";
+	exit 0;
+}
+
+if [ "$1" = "" ]; then
+	show_usage 1
+	exit 1;
+elif [ "$1" = "--help" ]; then
+	show_usage 0
+	exit 0;
+elif [ "$1" = "--version" ]; then
+	show_version
+	exit 0;
+fi
+
+
+BASE="$1";
+BASE_SED=$(echo $BASE | $SED "s/\//\\\\\//g");
+
+
+DIRS=$($FIND $BASE -type d -print0 | xargs -0)
+ENVS="";
+EXCLUDES=""
+
+for DIR in $DIRS; do
+
+	DIR_REL=$(echo $DIR | $SED "s/$BASE_SED\///");
+
+	is_env $DIR;
+
+	if [ "$?" = "1" ]; then
+		ENVS="$DIR_REL $ENVS";
+		EXCLUDES="--exclude=$DIR_REL/ $EXCLUDES";
+	fi
+done
+
+$RSYNC -au $EXCLUDES $BASE/ .;
+
+for ENV in $ENVS; do
+
+	echo "Backing up $ENV..."
+
+	backup_env "$ENV"
+
+	echo "done."
+done
