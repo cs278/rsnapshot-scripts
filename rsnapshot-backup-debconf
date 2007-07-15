@@ -25,14 +25,16 @@ else
 	TOUCH=$($WHICH touch);
 fi
 
-function show_usage {
+show_usage()
+{
 	echo "Usage: $0 [ --version | --help ]";
 	echo -e "    --help\tDisplay this help and exit";
 	echo -e "    --version\tDisplay version and exit";
 	exit $1;
 }
 
-function show_version {
+show_version()
+{
 	echo "rsnapshot-backup-debconf";
 	echo '$Id$';
 	echo ""
@@ -45,10 +47,10 @@ function show_version {
 	exit 0;
 }
 
-if [ "$1" == "--help" ]; then
+if [ "$1" = "--help" ]; then
 	show_usage 0
 	exit 0;
-elif [ "$1" == "--version" ]; then
+elif [ "$1" = "--version" ]; then
 	show_version
 	exit 0;
 fi
