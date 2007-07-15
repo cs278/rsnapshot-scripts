@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 #
 # rsnapshot-backup-svn
@@ -46,27 +46,32 @@ else
 	XARGS=$($WHICH xargs);
 fi
 
-function is_repository {
-	if [[ -d "$1/db" && -d "$1/conf" && -d "$1/hooks" ]]; then
+is_repository()
+{
+	if [ -d "$1/db" -a -d "$1/conf" -a -d "$1/hooks" ]; then
 		return 1;
 	else
 		return 0;
 	fi
 }
 
-function get_mode {
+get_mode()
+{
 	$STAT --format=%a $1
 }
 
-function get_uid {
+get_uid()
+{
 	$STAT --format=%u $1
 }
 
-function get_gid {
+get_gid()
+{
 	$STAT --format=%g $1
 }
 
-function backup_repos {
+backup_repos()
+{
 	REPOS=$1;
 
 	$SVNADMIN hotcopy "$BASE/$REPOS" "$REPOS";
@@ -85,14 +90,16 @@ function backup_repos {
 	done
 }
 
-function show_usage {
+show_usage()
+{
 	echo "Usage: $0 [ --version | --help | src ]";
 	echo -e "    --help\tDisplay this help and exit";
 	echo -e "    --version\tDisplay version and exit";
 	exit $1;
 }
 
-function show_version {
+show_version()
+{
 	echo "rsnapshot-backup-svn";
 	echo '$Id$';
 	echo ""
@@ -105,13 +112,13 @@ function show_version {
 	exit 0;
 }
 
-if [ "$1" == "" ]; then
+if [ "$1" = "" ]; then
 	show_usage 1
 	exit 1;
-elif [ "$1" == "--help" ]; then
+elif [ "$1" = "--help" ]; then
 	show_usage 0
 	exit 0;
-elif [ "$1" == "--version" ]; then
+elif [ "$1" = "--version" ]; then
 	show_version
 	exit 0;
 fi
@@ -131,7 +138,7 @@ for DIR in $DIRS; do
 
 	is_repository $DIR;
 
-	if [ "$?" == "1" ]; then
+	if [ "$?" = "1" ]; then
 		REPOSITORIES="$DIR_REL $REPOSITORIES";
 		EXCLUDES="--exclude=$DIR_REL/ $EXCLUDES";
 	fi

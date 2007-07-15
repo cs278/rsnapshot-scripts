@@ -31,14 +31,16 @@ else
 	TOUCH=$($WHICH touch);
 fi
 
-function show_usage {
+show_usage()
+{
 	echo "Usage: $0 [ --version | --help | cnf_file ]";
 	echo -e "    --help\tDisplay this help and exit";
 	echo -e "    --version\tDisplay version and exit";
 	exit $1;
 }
 
-function show_version {
+show_version()
+{
 	echo "rsnapshot-backup-mysql";
 	echo '$Id$';
 	echo ""
@@ -51,19 +53,20 @@ function show_version {
 	exit 0;
 }
 
-function ls_db {
+ls_db()
+{
 	 echo "SHOW DATABASES" | $MYSQL $MYSQL_CNF --batch --silent | $XARGS
 }
 
-if [ "$1" == "--help" ]; then
+if [ "$1" = "--help" ]; then
 	show_usage 0
 	exit 0;
-elif [ "$1" == "--version" ]; then
+elif [ "$1" = "--version" ]; then
 	show_version
 	exit 0;
 fi
 
-if [[ "$1" != "" && -f "$1" ]]; then
+if [ "$1" != "" -a -f "$1" ]; then
 	MYSQL_CNF="--defaults-extra-file=$1";
 else
 	MYSQL_CNF="";

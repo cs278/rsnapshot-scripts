@@ -29,14 +29,16 @@ else
 	TOUCH=$($WHICH touch);
 fi
 
-function show_usage {
+show_usage()
+{
 	echo "Usage: $0 [ --version | --help | domain ] [ nameserver ]";
 	echo -e "    --help\tDisplay this help and exit";
 	echo -e "    --version\tDisplay version and exit";
 	exit $1;
 }
 
-function show_version {
+show_version()
+{
 	echo "rsnapshot-backup-dns";
 	echo '$Id$';
 	echo ""
