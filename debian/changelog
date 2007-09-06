@@ -1,3 +1,9 @@
+rsnapshot-scripts (1.0.5) UNRELEASED; urgency=low
+
+  * Add Trac to debian/control (Closes: #3)
+
+ -- Chris Smith <chris@cs278.org>  Thu,  6 Sep 2007 13:07:10 +0100
+
 rsnapshot-scripts (1.0.4) feisty; urgency=low
 
   * Add rsnapshot-backup-debconf

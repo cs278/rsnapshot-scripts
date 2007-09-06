@@ -21,3 +21,4 @@ Description: rsnapshot backup scripts
   * Debconf Database
   * MySQL
   * Master Boot Records
+  * Trac <http://trac.edgewall.org/>
