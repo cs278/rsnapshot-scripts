@@ -23,8 +23,6 @@ if [ "$?" != "0" ]; then
 	CHGRP=/bin/chgrp
 	CHMOD=/bin/chmod
 	FIND=/usr/bin/find
-	GREP=/bin/grep
-	MKDIR=/bin/mkdir
 	RSYNC=/usr/bin/rsync
 	SED=/bin/sed
 	STAT=/usr/bin/stat
@@ -35,8 +33,6 @@ else
 	CHGRP=$($WHICH chgrp);
 	CHMOD=$($WHICH chmod);
 	FIND=$($WHICH find);
-	GREP=$($WHICH grep);
-	MKDIR=$($WHICH mkdir);
 	RSYNC=$($WHICH rsync);
 	SED=$($WHICH sed);
 	STAT=$($WHICH stat);

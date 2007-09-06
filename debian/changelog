@@ -1,8 +1,10 @@
 rsnapshot-scripts (1.0.5) UNRELEASED; urgency=low
 
   * Add Trac to debian/control (Closes: #3)
+  * rsnapshot-backup-trac
+    - Remove MKDIR and GREP variables (Closes: #4)
 
- -- Chris Smith <chris@cs278.org>  Thu,  6 Sep 2007 13:07:10 +0100
+ -- Chris Smith <chris@cs278.org>  Thu,  6 Sep 2007 13:10:56 +0100
 
 rsnapshot-scripts (1.0.4) feisty; urgency=low
 
