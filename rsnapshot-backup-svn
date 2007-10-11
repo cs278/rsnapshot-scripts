@@ -88,6 +88,8 @@ backup_repos()
 			# hotcopy sets the correct mode,
 			# and ownership should not matter
 			# as the repository never writes to it.
+			#
+			# <http://svn.haxx.se/dev/archive-2005-05/0454.shtml>
 
 			if [ "$REPOS_FILE" != "$REPOS/db/format" ]; then
 				echo "$REPOS_FILE does not exist at source." >&2;
