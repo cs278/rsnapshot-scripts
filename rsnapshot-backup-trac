@@ -78,9 +78,17 @@ backup_env()
 	ENV_FILES=$($FIND "$ENV" -print0 | $XARGS -0);
 
 	for ENV_FILE in $ENV_FILES; do
-		$CHOWN $(get_uid "$BASE/$ENV_FILE") $ENV_FILE;
-		$CHGRP $(get_gid "$BASE/$ENV_FILE") $ENV_FILE;
-		$CHMOD $(get_mode "$BASE/$ENV_FILE") $ENV_FILE;		
+
+		if [ ! -e "$BASE/$ENV_FILE" ]; then
+			echo "$ENV_FILE does not exist at source." >&2;
+		else
+
+			$CHOWN $(get_uid "$BASE/$ENV_FILE") $ENV_FILE;
+			$CHGRP $(get_gid "$BASE/$ENV_FILE") $ENV_FILE;
+			$CHMOD $(get_mode "$BASE/$ENV_FILE") $ENV_FILE;
+
+		fi
+
 	done
 }
 
@@ -118,9 +126,7 @@ elif [ "$1" = "--version" ]; then
 fi
 
 
-BASE="$1";
-BASE_SED=$(echo $BASE | $SED "s/\//\\\\\//g");
-
+BASE=$(echo "$1" | $SED "s,[/]*$,,");
 
 DIRS=$($FIND $BASE -type d -print0 | xargs -0)
 ENVS="";
@@ -128,7 +134,7 @@ EXCLUDES=""
 
 for DIR in $DIRS; do
 
-	DIR_REL=$(echo $DIR | $SED "s,$BASE,,");
+	DIR_REL=$(echo $DIR | $SED "s,$BASE/*,,");
 
 	is_env $DIR;
 
