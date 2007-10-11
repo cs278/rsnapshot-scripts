@@ -5,8 +5,10 @@ rsnapshot-scripts (1.0.5) UNRELEASED; urgency=low
     - Remove MKDIR and GREP variables (Closes: #4)
   * rsnapshot-backup-svn
     - Remove MKDIR and GREP variables (Closes: #5)
+    - Fix up issues relating to older repositories
+    - Fix trailing slash issues (Closes: #6)
 
- -- Chris Smith <chris@cs278.org>  Thu,  6 Sep 2007 13:16:23 +0100
+ -- Chris Smith <chris@cs278.org>  Thu, 11 Oct 2007 13:40:12 +0100
 
 rsnapshot-scripts (1.0.4) feisty; urgency=low
 

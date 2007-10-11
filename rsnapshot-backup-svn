@@ -80,9 +80,26 @@ backup_repos()
 	REPOS_FILES=$($FIND "$REPOS" -print0 | $XARGS -0);
 
 	for REPOS_FILE in $REPOS_FILES; do
-		$CHOWN $(get_uid "$BASE/$REPOS_FILE") $REPOS_FILE;
-		$CHGRP $(get_gid "$BASE/$REPOS_FILE") $REPOS_FILE;
-		$CHMOD $(get_mode "$BASE/$REPOS_FILE") $REPOS_FILE;		
+
+		if [ ! -e "$BASE/$REPOS_FILE" ]; then
+
+			# This file (db/format) can be created by
+			# hotcopy no worries if it doesn't exist
+			# hotcopy sets the correct mode,
+			# and ownership should not matter
+			# as the repository never writes to it.
+
+			if [ "$REPOS_FILE" != "$REPOS/db/format" ]; then
+				echo "$REPOS_FILE does not exist at source." >&2;
+			fi
+
+		else
+
+			$CHOWN $(get_uid "$BASE/$REPOS_FILE") $REPOS_FILE;
+			$CHGRP $(get_gid "$BASE/$REPOS_FILE") $REPOS_FILE;
+			$CHMOD $(get_mode "$BASE/$REPOS_FILE") $REPOS_FILE;
+
+		fi
 	done
 }
 
@@ -120,17 +137,15 @@ elif [ "$1" = "--version" ]; then
 fi
 
 
-BASE="$1";
-BASE_SED=$(echo $BASE | $SED "s/\//\\\\\//g");
-
+BASE=$(echo "$1" | $SED "s,[/]*$,,");
 
 DIRS=$($FIND $BASE -type d -print0 | xargs -0)
 REPOSITORIES="";
-EXCLUDES=""
+EXCLUDES="";
 
 for DIR in $DIRS; do
 
-	DIR_REL=$(echo $DIR | $SED "s/$BASE_SED\///");
+	DIR_REL=$(echo $DIR | $SED "s,$BASE/*,,");
 
 	is_repository $DIR;
 
