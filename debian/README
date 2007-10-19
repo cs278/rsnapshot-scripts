@@ -1,10 +1,14 @@
 The Debian Package rsnapshot-scripts
 ----------------------------
 
+* General:
+	- Further documentation can be found at the following URI.
+	<http://svn.cs278.org/trac/~chris/packages/wiki/rsnapshot-scripts/Documentation>
+
 * rsnapshot-backup-mysql:
 	- Create a backup user with a strong password and give them
 	the following global priviledges SELECT, SUPER, SHOW DATABASES,
 	LOCK TABLES. This will allow them to backup your data without
 	modifying it if the account is breached.
 
- -- Chris Smith <chris@cs278.org>  Tue, 20 Mar 2007 12:45:50 +0000
+ -- Chris Smith <chris@cs278.org>  Fri, 12 Oct 2007 02:45:15 +0100
