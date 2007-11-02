@@ -8,8 +8,18 @@ rsnapshot-scripts (1.0.5) UNRELEASED; urgency=low
     - Remove MKDIR and GREP variables (Closes: #5)
     - Fix up issues relating to older repositories
     - Fix trailing slash issues (Closes: #6)
+  * rsnapshot-backup-debconf
+    - Fixed error messages (Closes: #6)
+  * rsnapshot-backup-mbr
+    - Fixed error messages (Closes: #6)
+  * rsnapshot-backup-dns
+    - Fixed error messages (Closes: #6)
+  * rsnapshot-backup-dpkg
+    - Fixed error messages (Closes: #6)
+  * rsnapshot-backup-mysql
+    - Fixed error messages (Closes: #6)
 
- -- Chris Smith <chris@cs278.org>  Thu, 11 Oct 2007 16:18:29 +0100
+ -- Chris Smith <chris@cs278.org>  Fri, 02 Nov 2007 19:34:37 +0000
 
 rsnapshot-scripts (1.0.4) feisty; urgency=low
 

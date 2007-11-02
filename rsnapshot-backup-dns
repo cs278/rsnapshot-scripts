@@ -67,8 +67,8 @@ else
 		PRIMARY_NS=$($DIG +short soa $DOMAIN | $AWK '{ print $1; }');
 
 		if [ -z "$PRIMARY_NS" ]; then
-			echo -n "Unable to fetch SOA from your DNS server, you can specify ";
-			echo "the primary DNS server manually see $0 --help";
+			echo -n "Unable to fetch SOA from your DNS server, you can specify " >&2;
+			echo "the primary DNS server manually see $0 --help" >&2;
 			exit 3;
 		fi
 	else
@@ -77,11 +77,11 @@ else
 fi
 
 if [ -f "$DOMAIN.zone" ]; then
-	echo "Zone file [$DOMAIN.zone] already exists!";
+	echo "Zone file [$DOMAIN.zone] already exists!" >&2;
 	exit 4;
 fi
 
-$TOUCH "$DOMAIN.zone" 2>/dev/null || (echo "Failed to create zone file!"; \
+$TOUCH "$DOMAIN.zone" 2>/dev/null || (echo "Failed to create zone file!" >&2; \
 exit 5);
 
 $CHMOD 0600 "$DOMAIN.zone";
@@ -91,7 +91,7 @@ echo -e ";\n; $DOMAIN from $PRIMARY_NS\n;\n" > "$DOMAIN.zone";
 echo "; -- BEGIN DATA --" >> "$DOMAIN.zone";
 $DIG +noall +answer axfr $DOMAIN @$PRIMARY_NS >> "$DOMAIN.zone" || ( 
 	$RM -f "$DOMAIN.zone";
-	echo "Unable to perform AXFR request from $PRIMARY_NS";
+	echo "Unable to perform AXFR request from $PRIMARY_NS" >&2;
 	exit 2;
 );
 echo "; -- END DATA --" >> "$DOMAIN.zone";

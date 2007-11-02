@@ -75,9 +75,9 @@ fi
 DEST_FILE="$DEVICE_NAME.mbr";
 DEST_RAW_FILE="$DEVICE_NAME.raw.mbr";
 
-$TOUCH "$DEST_FILE" 2>/dev/null || (echo "Failed to create backup file!"; \
+$TOUCH "$DEST_FILE" 2>/dev/null || (echo "Failed to create backup file!" >&2; \
 exit 2);
-$TOUCH "$DEST_RAW_FILE" 2>/dev/null || (echo "Failed to create backup file!"; \
+$TOUCH "$DEST_RAW_FILE" 2>/dev/null || (echo "Failed to create backup file!" >&2; \
 exit 2);
 
 $CHMOD 0600 "$DEST_FILE" "$DEST_RAW_FILE";
