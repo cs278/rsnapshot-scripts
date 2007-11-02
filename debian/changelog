@@ -1,4 +1,4 @@
-rsnapshot-scripts (1.0.5) UNRELEASED; urgency=low
+rsnapshot-scripts (1.0.5) sid; urgency=medium
 
   * Add Trac to debian/control (Closes: #3)
   * rsnapshot-backup-trac
@@ -19,7 +19,7 @@ rsnapshot-scripts (1.0.5) UNRELEASED; urgency=low
   * rsnapshot-backup-mysql
     - Fixed error messages (Closes: #6)
 
- -- Chris Smith <chris@cs278.org>  Fri, 02 Nov 2007 19:34:37 +0000
+ -- Chris Smith <chris@cs278.org>  Fri, 02 Nov 2007 20:01:38 +0000
 
 rsnapshot-scripts (1.0.4) feisty; urgency=low
 
