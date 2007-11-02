@@ -75,7 +75,7 @@ fi
 for DB in `ls_db`; do
 	echo "Backing up $DB...";
 
-	$TOUCH "$DB.sql.gz" 2>/dev/null || (echo "Failed to create dump file!"; \
+	$TOUCH "$DB.sql.gz" 2>/dev/null || (echo "Failed to create dump file!" >&2; \
 	exit 2);
 
 	$CHMOD 0600 "$DB.sql.gz";

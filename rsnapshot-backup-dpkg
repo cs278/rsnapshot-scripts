@@ -57,7 +57,7 @@ fi
 
 STATUS_FILE="dpkg-status";
 
-$TOUCH "$STATUS_FILE" 2>/dev/null || (echo "Failed to create status file!"; \
+$TOUCH "$STATUS_FILE" 2>/dev/null || (echo "Failed to create status file!" >&2; \
 exit 2);
 
 $CHMOD 0600 "$STATUS_FILE";
