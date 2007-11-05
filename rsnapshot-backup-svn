@@ -165,7 +165,10 @@ for REPOS in $REPOSITORIES; do
 
 	backup_repos "$REPOS"
 
-	$SVNADMIN verify $REPOS
+	# svnadmin verify writes to STDERR and has no quiet option,
+	# replace its output with our own if a failiure occurs on STDERR.
+	# No output on success.
+	$SVNADMIN verify $REPOS 2>&1 || echo "Repository verification failed." >&2;
 
 	echo "done."
 done
