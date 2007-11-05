@@ -1,10 +1,10 @@
 rsnapshot-scripts (1.0.5a) unstable; urgency=high
 
   * rsnapshot-backup-svn
-    - Redirected output from svnadmin verify (Closes: #7)
+    - Redirected output from svnadmin verify (Closes: #8)
   * Fixed missing files in debian/install (Closes: #9)
 
- -- Chris Smith <chris@cs278.org>  Mon, 05 Nov 2007 16:41:02 +0000
+ -- Chris Smith <chris@cs278.org>  Mon, 05 Nov 2007 16:43:39 +0000
 
 rsnapshot-scripts (1.0.5) sid; urgency=medium
 
