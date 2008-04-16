@@ -1,0 +1,102 @@
+#!/bin/sh
+
+#
+# rsnapshot-backup-router
+#
+# (c) Copyright 2007 Chris Smith
+# This is free software. You may redistribute copies of it under the terms of
+# the GNU General Public License <http://www.opensource.org/licenses/gpl-license.php>.
+# There is NO WARRANTY, to the extent permitted by law.
+#
+# $Id$
+#
+# Download latest from: $HeadURL$
+#
+
+WHICH=$(which which);
+
+if [ "$?" != "0" ]; then
+	CHMOD=/bin/chmod;
+	WGET=/usr/bin/wget;
+else
+	CHMOD=$($WHICH chmod);
+	WGET=$($WHICH wget);
+fi
+
+show_usage()
+{
+	echo "Usage: $0 [ --version | --help | device ]";
+	echo "    device\tDevice node to backup the MBR of";
+	echo "    --help\tDisplay this help and exit";
+	echo "    --version\tDisplay version and exit";
+	exit $1;
+}
+
+show_version()
+{
+	echo "rsnapshot-backup-router";
+	echo '$Id$';
+	echo ""
+	echo "(c) Copyright 2007 Chris Smith";
+	echo "This is free software. You may redistribute copies of it under the terms of";
+	echo "the GNU General Public License <http://www.opensource.org/licenses/gpl-license.php>.";
+	echo "There is NO WARRANTY, to the extent permitted by law.";
+	echo "";
+	echo "Written by Chris Smith <http://www.cs278.org/>";
+	exit 0;
+}
+
+# TODO Change this
+
+if [ "$1" = "--help" ]; then
+	show_usage 0
+	exit 0;
+elif [ "$1" = "--version" ]; then
+	show_version
+	exit 0;
+elif [ "$1" = "" ]; then
+	show_usage 1;
+	exit 1;
+fi
+
+USER=
+PASSWORD=
+HOST=
+TYPE=
+
+while getopts "u:p:t:h:": opt
+do
+	case "$opt" in
+		u)
+			USER=$OPTARG;;
+		p)
+			PASSWORD=$OPTARG;;
+		t)
+			TYPE=$OPTARG;;
+		h)
+			HOST=$OPTARG;;
+		\?)
+			show_usage 1;
+			exit 1;;
+	esac
+done
+shift `expr $OPTIND - 1`
+
+case "$TYPE" in
+	wag54g)
+		URL=$($WGET --quiet --user="$USER" --password="$PASSWORD" --no-cache "http://$HOST/Backup_Restore.asp" -O- | grep admbutton.backup | sed 's,.*/\(WAG354G_[0-9]*\.[0-9]*\.[0-9]*\.cfg\).*,\1,');
+		URL="http://$HOST/$URL";;
+	*)
+		echo "Unrecognised router type";
+		exit 2;;
+esac
+
+FILE="$HOST.cfg";
+
+$WGET --quiet --user="$USER" --password="$PASSWORD" --no-cache $URL --output-document="$FILE";
+
+RESULT=$?;
+
+$CHMOD 0600 "$FILE";
+
+exit $RESULT;

@@ -3,5 +3,6 @@ rsnapshot-backup-dns		usr/sbin
 rsnapshot-backup-dpkg		usr/sbin
 rsnapshot-backup-mbr		usr/sbin
 rsnapshot-backup-mysql		usr/sbin
+rsnapshot-backup-router		usr/sbin
 rsnapshot-backup-svn		usr/sbin
 rsnapshot-backup-trac		usr/sbin

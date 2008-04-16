@@ -22,3 +22,4 @@ Description: rsnapshot backup scripts
   * MySQL
   * Master Boot Records
   * Trac <http://trac.edgewall.org/>
+  * SOHO Routers <http://svn.cs278.org/trac/~chris/packages/wiki/rsnapshot-scripts/Routers>
